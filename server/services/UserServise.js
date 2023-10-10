@@ -2,7 +2,7 @@ const User = require("../Models/UserModel");
 const bcrypt = require('bcrypt')
 const tokenService = require('./TokeService');
 const UserDto = require("../dto/UserDto");
-const FileService = require('./FileService')
+const FileService = require('./FileService');
 
 class UserService {
     async register(email, password) {
@@ -47,6 +47,24 @@ class UserService {
         } catch (e) {
             throw e
         }
+    }
+
+    async logout(refreshToken) {
+        await tokenService.removeToken(refreshToken)
+    }
+
+    async refreshToken(token) {
+        const tokenData = await tokenService.refreshToken(token)
+        if(!tokenData) {
+            throw new Error('Неваоидный токен')
+        }
+        
+        const user = User.findOne({id: tokenData.user})
+        const userDto = new UserDto(user)
+        const tokens = await tokenService.generateTokens({...userDto})
+        
+        await tokenService.saveToken(tokens.refreshToken, user.id)
+        return {...tokens, user: userDto}
     }
 }
 

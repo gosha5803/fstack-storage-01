@@ -9,6 +9,7 @@ export const registerApi = createApi({
     reducerPath:'auth',
     baseQuery:fetchBaseQuery({
         baseUrl:'http://localhost:4080/api',
+        credentials: 'include',
         prepareHeaders:(headers, { getState }) => {
             console.log(getState())
             return headers
@@ -32,5 +33,21 @@ export const registerApi = createApi({
                 }
             },
         }),
+
+        checkRegister: build.query<IAuthResponse, void>({
+            query: () => ({
+                url: '/refresh',
+            }),
+            async onQueryStarted(_arg, {dispatch, queryFulfilled}) {
+                try {
+                    const {data: user} = await queryFulfilled
+                    dispatch(setUser({token: user.accessToken, id: user.user.id, email: user.user.email, login: 'login'}))
+                    dispatch(setAuth(true))
+                    localStorage.setItem('accessToken', user.accessToken)
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+        })
     })
 }) 
