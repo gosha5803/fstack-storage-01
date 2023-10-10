@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const Token = require('../Models/TokenModel')
+const { Unauthorized } = require('../utils/authErrors')
 
 class TokenService {
     async generateTokens(payload) {
@@ -26,13 +27,15 @@ class TokenService {
     }
 
     async refreshToken(refresh) {
-        const validRefreshToken = jwt.verify(refresh, process.env.REFRESH_SECRET)
-        if(!validRefreshToken) {
-            throw new Error('Невалидный рефреш токен')
+        try {
+            const validRefreshToken = jwt.verify(refresh, process.env.REFRESH_SECRET)
+            if(!validRefreshToken) {
+                throw new Unauthorized()
+            }
+            return validRefreshToken.email
+        } catch (e) {
+            return null
         }
-
-        const tokenData = Token.findOne({token: validRefreshToken})
-        return tokenData
     }
 }
 

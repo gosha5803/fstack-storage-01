@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import { IAuth } from './types'
+import { IBackenErrors } from '../../Models/backendErrors'
 
 const initialState: IAuth = {
     isAuth: false

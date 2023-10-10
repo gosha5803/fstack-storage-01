@@ -9,7 +9,7 @@ router.post('/register',
     body('password', 'Пароль должен быть не окроче 8 символов').isLength({min: 8}),
     UserController.register)
 router.post('/login', UserController.login)
-router.get('/logout')
+router.get('/logout', UserController.logout)
 router.get('/refresh', UserController.refresh)
 
 

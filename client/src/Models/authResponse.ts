@@ -5,7 +5,8 @@ export interface IAuthResponse {
 }
 
 export interface User {
-email: string
-id: string
+    email: string
+    id: string
+    login: string
 }
   

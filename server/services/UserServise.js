@@ -3,17 +3,18 @@ const bcrypt = require('bcrypt')
 const tokenService = require('./TokeService');
 const UserDto = require("../dto/UserDto");
 const FileService = require('./FileService');
+const { BadRequest, Unauthorized } = require("../utils/authErrors");
 
 class UserService {
-    async register(email, password) {
+    async register(email, password, login) {
         try {
-            const candidate = await User.findOne({email})
+            const candidate = User.findOne({email})
             if(candidate) {
-                throw new Error('Пользователь с таким email уже существует')
+                throw BadRequest('Пользователь с таким email уже существует')
             }
 
             const hashedPassword = await bcrypt.hash(password, 4)
-            const user = await User.create({email, password: hashedPassword})
+            const user = await User.create({email, password: hashedPassword, login})
 
             const userDto = new UserDto(user)
             const tokens = await tokenService.generateTokens({...userDto})
@@ -31,12 +32,12 @@ class UserService {
         try {
             const user = await User.findOne({email})
             if (!user) {
-                throw new Error('Польщователя с таким email не существует')
+                throw BadRequest('Пользователя с таким email не существует')
             }
 
             const isEqual = await bcrypt.compare(password, user.password)
             if (!isEqual) {
-                throw new Error('Неверный пароль')
+                throw BadRequest('Неверный пароль')
             }
 
             const userDto = new UserDto(user)
@@ -54,17 +55,17 @@ class UserService {
     }
 
     async refreshToken(token) {
-        const tokenData = await tokenService.refreshToken(token)
-        if(!tokenData) {
-            throw new Error('Неваоидный токен')
-        }
-        
-        const user = User.findOne({id: tokenData.user})
-        const userDto = new UserDto(user)
-        const tokens = await tokenService.generateTokens({...userDto})
-        
-        await tokenService.saveToken(tokens.refreshToken, user.id)
-        return {...tokens, user: userDto}
+            const userEmail = await tokenService.refreshToken(token)
+            if(!userEmail) {
+                throw Unauthorized()
+            }
+            
+            const user = await User.findOne({email: userEmail})
+            const userDto = new UserDto(user)
+            const tokens = await tokenService.generateTokens({...userDto})
+            
+            await tokenService.saveToken(tokens.refreshToken, user.id)
+            return {...tokens, user: userDto}
     }
 }
 

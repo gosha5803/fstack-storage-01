@@ -6,31 +6,42 @@ import { VisibilityOff, Visibility } from '@mui/icons-material';
 import PasswordValidation from './PasswordValidation';
 import {List, ListItem} from '@mui/material'
 import {CheckCircleOutlineOutlined} from '@mui/icons-material'
+import { registerApi } from '../api/authApi';
+import AlertComponent from './Alert';
 
 export interface FormProps {
     email:string,
     password:string,
-    login:string
+    login?:string
 }
 
-interface LoginFormProps {
-    registerUser: (data: FormProps) => void
-}
+// interface LoginFormProps {
+//     registerUser: (data: FormProps) => void,
+//     login: (data: FormProps) => void
+// }
 
-const LoginForm: React.FC <LoginFormProps> = ({registerUser}) => {
-    const [isRegistration, setIsRegistration] = useState<boolean>(true)
+const LoginForm: React.FC  = () => {
+    const [isRegistration, setIsRegistration] = useState<boolean>(false)
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
-
+    const [registerUser, {error: registerError, isError: isRegisterError}] = registerApi.useRegisterMutation()
+    const [login, {error: loginError, isError: isLoginError}] = registerApi.useLoginMutation()
     const form = useForm<FormProps>()
     const {register, formState, handleSubmit, getValues} = form
     const {errors} = formState
 
     const submitHandler = (data: FormProps) => {
-        registerUser(data)
+        isRegistration ? registerUser(data) : login(data)
     }
 
     return (
         <>
+        <AlertComponent
+        message={
+            isRegistration ? (registerError && ('data' in registerError) && isRegisterError ? registerError.data.message : '')
+            :
+            (loginError && ('data' in loginError) && isLoginError ? loginError.data.message : '') 
+          }
+        />
         <Modal
         open={!false}
         >
