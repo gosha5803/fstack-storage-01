@@ -1,0 +1,25 @@
+const jwt = require('jsonwebtoken')
+const Token = require('../Models/TokenModel')
+
+class TokenService {
+    async generateTokens(payload) {
+        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {expiresIn:'15m'})
+        const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {expiresIn:'30d'})
+
+        return {accessToken, refreshToken}
+    }
+
+    async saveToken(refreshToken, userId) {
+        const oldToken = await Token.findOne({user: userId})
+        if (oldToken) {
+            oldToken.token = refreshToken
+            await oldToken.save()
+            return oldToken
+        }
+
+        const newToken = await Token.create({user:userId, token: refreshToken})
+        return newToken
+    }
+}
+
+module.exports = new TokenService()
