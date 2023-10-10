@@ -1,0 +1,11 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  text-align: center;
+  min-height: 1000px;
+}
+
+
