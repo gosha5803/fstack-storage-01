@@ -2,9 +2,11 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import { privateRoutes, publicRoutes } from '../router';
+import StoragePage from '../Pages/StoragePage';
 
 const AppRouter = () => {
     const {isAuth} = useTypedSelector(state => state.authentication)
+    const {currentFile} = useTypedSelector(state => state.files)
 
     return (
         <>
@@ -13,7 +15,8 @@ const AppRouter = () => {
             {privateRoutes.map(route => 
                 <Route key={route.path} path={route.path} Component={route.element}/>
                 )}
-            <Route path='*' element={<Navigate to={'/home'}/>}/>
+            {/* <Route path={`/storage/${currentFile.id}`} Component={StoragePage}/> */}
+            {/* <Route path='*' element={<Navigate to={'/home'}/>}/> */}
         </Routes>
         :
         <Routes>

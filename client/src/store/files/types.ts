@@ -6,4 +6,5 @@ export interface IFile {
 export interface FilesState {
     currentFile: IFile
     childFiles: IFile[]
+    parents: IFile[]
 }

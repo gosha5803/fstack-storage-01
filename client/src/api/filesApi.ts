@@ -23,8 +23,12 @@ export const filesApi = createApi({
             }),
             providesTags: ['files'],
             async onQueryStarted(_arg, {queryFulfilled, dispatch}) {
-                const {data: children} = await queryFulfilled
-                dispatch(setChildren(children))
+                try {
+                    const {data: children} = await queryFulfilled
+                    dispatch(setChildren(children))
+                } catch (e) {
+                    console.log(e)
+                }
             },
         })
     })

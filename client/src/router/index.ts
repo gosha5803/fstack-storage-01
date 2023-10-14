@@ -10,7 +10,7 @@ interface IRoute {
 export enum RouterPaths {
     HOME_PAGE = '/home',
     REGISTER_PAGE = '/register',
-    STORAGE_PAGE = 'storage'
+    STORAGE_PAGE = '/storage'
 }
 
 export const privateRoutes: IRoute[] = [

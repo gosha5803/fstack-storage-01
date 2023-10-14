@@ -5,5 +5,5 @@ export interface CreateFileRequest {
 
 export interface IFile {
     id: string
-    title: string
+    name: string
 }

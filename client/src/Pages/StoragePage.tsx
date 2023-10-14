@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Link, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import FilesGreed from '../Components/FilesGreed';
 import { useCreateFolderMutation, useLazyGetChildrenQuery } from '../api/filesApi';
@@ -6,14 +6,36 @@ import CreateFolderForm from '../interface/createFolderForm';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import CustomMenu from '../interface/CustomMenu';
 import { CreateNewFolderOutlined, MoreHoriz } from '@mui/icons-material';
+import { IFile } from '../Models/createFileRequest';
+import { useActions } from '../hooks/useActions';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { changeParents } from '../store/files/filesSlice';
 
 const StoragePage: React.FC = () => {
+    const {addParent} = useActions()
+    const navigate = useNavigate()
+    const location = useLocation()
     const {id} = useTypedSelector(state => state.files.currentFile)
+    const {parents} = useTypedSelector(state => state.files)
+    const {setCurrentFile} = useActions()
     const [fetchChildFiles, {data: files}] = useLazyGetChildrenQuery()
     const [createFile, {data}] = useCreateFolderMutation()
     const [isContext, setIsContext] = useState<null | HTMLElement>(null)
     const [postition, setPosition] = useState<{left: number, top: number} | undefined>()
     const [showModal, setShowModal] = useState<boolean>(false)
+
+    const openFolderHandler = (target: IFile) => {
+        // if(parents.pop()?.id == target.id) {
+
+        // }
+        console.log(target)
+        addParent(target)
+        setCurrentFile(target)
+        // navigate(`${target.id}`)
+        fetchChildFiles(target.id)
+    }
+
+    console.log(location.pathname)
 
     useEffect(() => {
         fetchChildFiles(id)
@@ -24,6 +46,13 @@ const StoragePage: React.FC = () => {
         return function(name: string) {
             createFile({folderName: name, link: id})
         }
+    }
+
+    const navigateFiles = (file: IFile) => {
+        changeParents(file.id)
+        setCurrentFile(file)
+        fetchChildFiles(file.id)
+        console.log([1, 2, 3, 4].splice(3))
     }
 
     const handleContext = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -56,20 +85,19 @@ const StoragePage: React.FC = () => {
                 setIsModalOpen={setShowModal}
                 createFile={createFileZamknutNaId()}/>
                 <Breadcrumbs aria-label="breadcrumb" sx={{fontWeight: '700', color:'#27005D'}} >
-                <Link underline="hover" color="inherit" href="/">
-                    MUI
-                </Link>
-                <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/material-ui/getting-started/installation/"
-                >
-                    Core
-                </Link>
-                <Typography color="text.primary">Breadcrumbs</Typography>
+                    <Typography color="text.primary">Хранилище</Typography>
+                    {parents.map(file => 
+                        <Button 
+                        variant='text'
+                        color='primary'
+                        onClick={() => navigateFiles(file)}
+                        >
+                        {file.name}
+                        </Button>
+                        )}
                 </Breadcrumbs>  
                 <FilesGreed
-                openFileHandler={fetchChildFiles}
+                openFileHandler={openFolderHandler}
                 files={files}
                 />  
                 {/* <MenuComponent

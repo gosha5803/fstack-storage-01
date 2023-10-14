@@ -46,6 +46,7 @@ export const registerApi = createApi({
                     dispatch(setCurrentFile(user.mainFolder))
                     dispatch(setAuth(true))
                     localStorage.setItem('accessToken', user.accessToken)
+                    localStorage.setItem('userId', user.user.id)
                 } catch (e) {
                     console.log(e)
                 }

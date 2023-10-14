@@ -10,7 +10,7 @@ import UploadFileComponent from './UploadFileComponent';
 
 interface FileGridProps {
     files: IFile[] | undefined
-    openFileHandler: (id: string) => void
+    openFileHandler: (target: IFile) => void
 }
 
 const FilesGreed: React.FC<FileGridProps> = ({files, openFileHandler}) => {
@@ -29,7 +29,7 @@ const FilesGreed: React.FC<FileGridProps> = ({files, openFileHandler}) => {
                 alignItems={'center'}>
                     <Box 
                     // onClick={clicker}
-                    onDoubleClick={() => openFileHandler(file.id)} 
+                    onDoubleClick={() => openFileHandler(file)} 
                     sx={{
                         width:'120px',
                         display:'flex',
