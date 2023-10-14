@@ -5,6 +5,7 @@ import { FormProps } from '../Components/LoginForm'
 import {logout, setUser} from '../store/user/userSlice'
 import { setAuth } from '../store/auth/authSlice'
 import { IBackenErrors } from '../Models/backendErrors'
+import { setCurrentFile } from '../store/files/filesSlice'
 
 export const registerApi = createApi({
     reducerPath:'auth',
@@ -42,6 +43,7 @@ export const registerApi = createApi({
                 try {
                     const {data: user} = await queryFulfilled
                     dispatch(setUser({token: user.accessToken, id: user.user.id, email: user.user.email, login:  user.user.login}))
+                    dispatch(setCurrentFile(user.mainFolder))
                     dispatch(setAuth(true))
                     localStorage.setItem('accessToken', user.accessToken)
                 } catch (e) {

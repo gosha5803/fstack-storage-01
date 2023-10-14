@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import {Box, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Button, Stack, Divider} from '@mui/material'
-import {AccountCircleOutlined} from '@mui/icons-material'
+import {AccountBalanceOutlined, AccountCircleTwoTone, } from '@mui/icons-material'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { registerApi } from '../api/authApi';
 import { NavLink } from 'react-router-dom';
+import CustomMenu from '../interface/CustomMenu';
 
 const NavBar = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -42,8 +44,8 @@ const NavBar = () => {
                         <Typography variant='h4' component={'div'}>uStorage</Typography>
                         <Divider orientation='vertical' flexItem sx={{ml:1, bgcolor:'white'}}/>
                         {pages.map(page => 
-                            <NavLink to={page.path}>
-                                <Button variant='text' key={page.id}
+                            <NavLink to={page.path} key={page.id}>
+                                <Button variant='text' 
                                 size='large'
                                 sx={{
                                     color:'white',
@@ -61,14 +63,14 @@ const NavBar = () => {
                         sx={{display: 'flex', alignItems: 'center'}}
                         >
                             <Typography variant='h6' component={'span'}>{login}</Typography>
-                            <IconButton
+                            {/* <IconButton
                             onClick={handleMenu}
                             >
                                 <AccountCircleOutlined
                                 sx={{color:'white'}}
                                 />
-                            </IconButton>
-                            <Menu
+                            </IconButton> */}
+                            {/* <Menu
                                 open={!!anchorEl}
                                 anchorEl={anchorEl}
                                 anchorOrigin={{
@@ -86,7 +88,16 @@ const NavBar = () => {
                                 onClick={handleClose}
                                 >Logout
                                 </MenuItem>
-                            </Menu>
+                            </Menu> */}
+
+                            <CustomMenu
+                            menuButton={{
+                                icon: <AccountCircleTwoTone sx={{color:'white', fontSize: 30}}/>
+                            }}
+                            menuItems={[
+                                {title: 'Выйти', action: () => logout(), icons: <ExitToAppIcon color='secondary'/>}
+                            ]}
+                            />
                         </Box>
                     </Toolbar>
                 </AppBar>

@@ -1,3 +1,5 @@
+import { IFile } from "../store/files/types"
+
 export const Validators = {
     email: {
         required: {
@@ -27,7 +29,27 @@ export const Validators = {
         },
         validate: (password:string) => passwordConfigValidator(password)
         // validate: (password:string) => 
-    }
+    },
+
+    createFolder: (existingFiles: IFile[] | undefined) => ({
+        validate: {
+            value: (fileName: string) => {
+                if(!existingFiles) {
+                    return true
+                }
+                return !existingFiles.filter(file => file.name == fileName).length ? true : 'Папка с таким именем уже существует' 
+            }
+        }
+    }),
+
+    // test: (message: string) => {
+    //     return {
+    //         required: {
+    //             value: true,
+    //             message
+    //         }
+    //     }
+    // }
 }
 
 function passwordConfigValidator(password: string): boolean | string {

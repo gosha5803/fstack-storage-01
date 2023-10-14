@@ -13,7 +13,15 @@ router.get('/logout', UserController.logout)
 router.get('/refresh', UserController.refresh)
 
 
-router.post('/folders/:link', FilesController.createFile)
-router.get('/folders/:link', FilesController.removeFile)
+router.post('/folders/create/:link', FilesController.createFile)
+router.get('/folders/remove/:link', FilesController.removeFile)
+router.get('/folders/getChildren/:link', FilesController.getChildren)
+router.post('/testFile', (req, res) => {
+    console.log(req.files)
+    return res.json({messga: 'saks'})
+})
 
 module.exports = router
+
+//Переписать поле title папки, и логику его записи. Переделать дизайн под гугл диск немного возможно. Добавить создание папки по правой клавише мыши, и унифицировать форму и меню возмжно.
+//Сначала унифицировать пути в роутере и прописать логику создания папок до конца.

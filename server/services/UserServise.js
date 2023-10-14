@@ -4,11 +4,13 @@ const tokenService = require('./TokeService');
 const UserDto = require("../dto/UserDto");
 const FileService = require('./FileService');
 const { BadRequest, Unauthorized } = require("../utils/authErrors");
+const File = require('../Models/FileModel');
+const FileDto = require("../dto/FileFto");
 
 class UserService {
     async register(email, password, login) {
         try {
-            const candidate = User.findOne({email})
+            const candidate = await User.findOne({email})
             if(candidate) {
                 throw BadRequest('Пользователь с таким email уже существует')
             }
@@ -18,11 +20,11 @@ class UserService {
 
             const userDto = new UserDto(user)
             const tokens = await tokenService.generateTokens({...userDto})
-            await FileService.createBasicUserDir(user)
+            const basicFolder = await FileService.createBasicUserDir(user)
             // user.files.push(mainFile)
             // await user.save()
             await tokenService.saveToken(tokens.refreshToken, user.id)
-            return {...tokens, user: userDto}
+            return {...tokens, user: userDto, mainFolder: basicFolder}
         } catch (e) {
             throw e
         }
@@ -43,8 +45,10 @@ class UserService {
             const userDto = new UserDto(user)
             const tokens = await tokenService.generateTokens({...userDto})
             await tokenService.saveToken(tokens.refreshToken, user.id)
+            const mainFolder = await File.findOne({parent: process.env.LOCAL_STORAGE_PATH})
+            const folderDto = new FileDto(mainFolder)
 
-            return {...tokens, user: userDto}
+            return {...tokens, user: userDto, mainFolder: folderDto}
         } catch (e) {
             throw e
         }
@@ -63,9 +67,13 @@ class UserService {
             const user = await User.findOne({email: userEmail})
             const userDto = new UserDto(user)
             const tokens = await tokenService.generateTokens({...userDto})
+
+            const mainFolder = await File.findOne({parent: process.env.LOCAL_STORAGE_PATH})
+            const folderDto = new FileDto(mainFolder)
+
             
             await tokenService.saveToken(tokens.refreshToken, user.id)
-            return {...tokens, user: userDto}
+            return {...tokens, user: userDto, mainFolder: folderDto}
     }
 }
 

@@ -8,7 +8,7 @@ class FileController {
             const newFolder = await FileService.createDir(parrentID, folderName)
             return res.json(newFolder)
         } catch (e) {
-            res.json(e.message)
+            next(e)
         }
     }
 
@@ -18,7 +18,17 @@ class FileController {
             const user = await FileService.removeDir(fileId)
             return res.json(user)
         } catch (e) {
-            res.json(e)
+            next(e)
+        }
+    }
+
+    async getChildren(req, res, next) {
+        try {
+            const currentFileId = req.params.link
+            const childFiles = await FileService.getChildren(currentFileId)
+            return res.json(childFiles)
+        } catch (e) {
+            next(e)
         }
     }
 }

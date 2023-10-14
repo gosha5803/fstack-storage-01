@@ -4,10 +4,12 @@ const cors = require('cors')
 const app = express()
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
+const fileUpload = require('express-fileupload')
 const errorsMiddleware = require('./Middlewares/errorsMiddleware')
 const PORT = process.env.PORT || 5555
 
 app.use(cookieParser())
+app.use(fileUpload({}))
 app.use(cors({
     credentials: true, 
     origin: process.env.CLIENT_URL

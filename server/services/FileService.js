@@ -1,7 +1,8 @@
 const fs = require('fs')
 const path = require('path')
 const User = require("../Models/UserModel");
-const File = require("../Models/FileModel")
+const File = require("../Models/FileModel");
+const FileDto = require('../dto/FileFto');
 
 class FileService {
     async createDir(parrentID, name = '') {
@@ -13,19 +14,22 @@ class FileService {
         const user = await User.findById(parrentFile.user)
                 
         const newFile = await File.create({user: user._id, name, parent:`${parrentFile.parent}\\${parrentFile.name}`})
+        const fileDto = new FileDto(newFile)
         fs.mkdirSync(path.resolve(newFile.parent, newFile.name))
         
         user.files.push(newFile)
         await user.save()
-        return newFile
+        return fileDto
     }
 
     async createBasicUserDir(user) {
         const newFile = await File.create({user: user.id, name: `User_${user.id.toString()}_main`})
         fs.mkdirSync(path.resolve(newFile.parent, newFile.name))
-        
+        const fileDto = new FileDto(newFile)
+
         user.files.push(newFile)
         await user.save()
+        return fileDto
     }
 
     async removeDir(dirId) {
@@ -45,6 +49,15 @@ class FileService {
         } catch (e) {
             throw new Error(e.message)
         }
+    }
+
+    async getChildren(currentFileId) {
+        const currentFile = await File.findById(currentFileId)
+        const currentFileFullName = currentFile.parent + '\\' + currentFile.name
+        const childFiles = await File.find({parent: currentFileFullName})
+
+        const filesDto = childFiles.map(file => new FileDto(file))
+        return filesDto
     }
 }
 
