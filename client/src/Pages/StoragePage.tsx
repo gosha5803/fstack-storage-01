@@ -9,10 +9,10 @@ import { CreateNewFolderOutlined, MoreHoriz } from '@mui/icons-material';
 import { IFile } from '../Models/createFileRequest';
 import { useActions } from '../hooks/useActions';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { changeParents } from '../store/files/filesSlice';
+
 
 const StoragePage: React.FC = () => {
-    const {addParent} = useActions()
+    const {addParent, changeParents} = useActions()
     const navigate = useNavigate()
     const location = useLocation()
     const {id} = useTypedSelector(state => state.files.currentFile)
@@ -28,14 +28,11 @@ const StoragePage: React.FC = () => {
         // if(parents.pop()?.id == target.id) {
 
         // }
-        console.log(target)
         addParent(target)
         setCurrentFile(target)
         // navigate(`${target.id}`)
         fetchChildFiles(target.id)
     }
-
-    console.log(location.pathname)
 
     useEffect(() => {
         fetchChildFiles(id)
@@ -49,10 +46,12 @@ const StoragePage: React.FC = () => {
     }
 
     const navigateFiles = (file: IFile) => {
+        let arr = [1, 2, 3, 4, 5]
+        arr.splice(2)
+        console.log(arr)
         changeParents(file.id)
         setCurrentFile(file)
         fetchChildFiles(file.id)
-        console.log([1, 2, 3, 4].splice(3))
     }
 
     const handleContext = (event: React.MouseEvent<HTMLDivElement>) => {
