@@ -8,6 +8,7 @@ import {List, ListItem} from '@mui/material'
 import {CheckCircleOutlineOutlined} from '@mui/icons-material'
 import { registerApi } from '../api/authApi';
 import AlertComponent from './Alert';
+import { MyButton } from '../interface/UI/MyButton';
 
 export interface FormProps {
     email:string,
@@ -98,12 +99,32 @@ const LoginForm: React.FC  = () => {
 
                         {(isRegistration && getValues().password) && <PasswordValidation message={errors.password?.message}/>} 
                         
-
-                        <Button type='submit' variant='contained' color='secondary'>{isRegistration ? 'Зарегистрироваться' : 'Войти'}</Button>
+                        <MyButton
+                        type='submit'
+                        variant='contained'
+                        color='secondary'
+                        >
+                            {isRegistration ? 'Зарегистрироваться' : 'Войти'}
+                        </MyButton>
                         
                         <Stack direction='row' spacing={2}>
-                            <Button disabled={!isRegistration} onClick={() => setIsRegistration(pre => !pre)} type='submit' variant='text' color='primary'>Войти</Button>
-                            <Button disabled={isRegistration} onClick={() => setIsRegistration(pre => !pre)} type='submit' variant='text' color='primary'>Зарегистрироваться</Button>
+                            <MyButton 
+                            clickHandler={() => setIsRegistration(p => !p)}
+                            disabled={!isRegistration}
+                            variant='text'
+                            color='primary'
+                            >
+                                Вход
+                            </MyButton>
+                            <MyButton 
+                            clickHandler={() => setIsRegistration(p => !p)}
+                            disabled={isRegistration}
+                            variant='text'
+                            color='primary'
+                            >
+                                Регистрация
+                            </MyButton>
+                            
                         </Stack>
 
                     </Stack>

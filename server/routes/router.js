@@ -16,9 +16,9 @@ router.get('/refresh', UserController.refresh)
 router.post('/folders/create/:link', FilesController.createFile)
 router.get('/folders/remove/:link', FilesController.removeFile)
 router.get('/folders/getChildren/:link', FilesController.getChildren)
-router.post('/testFile', (req, res) => {
-    console.log(req.files)
-    return res.json({messga: 'saks'})
+router.post('/folders/uploadFile/:link', FilesController.uploadFile)
+router.get('/folders/downloadFile', (req, res) => {
+    return res.download('C:\\Users\\Мвидео\\Desktop\\8280463c31ca7c0f81ef88f93c19633c.jpeg')
 })
 
 module.exports = router

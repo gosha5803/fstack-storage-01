@@ -6,6 +6,7 @@ import { CreateFileRequest } from '../Models/createFileRequest';
 import { CancelOutlined } from '@mui/icons-material';
 import { Validators } from '../utils/validators';
 import { IFile } from '../store/files/types';
+import { MyButton } from './UI/MyButton';
 
 interface FormProps {
     folderName: string
@@ -49,13 +50,13 @@ const CreateFolderForm: React.FC<CreateFolderFormProps> = ({createFile, isModalO
                     helperText={errors.folderName?.message}
                     {...register('folderName', Validators.createFolder(existingFiles))}
                     />
-                    <Button 
+                    <MyButton 
                     type='submit'
                     color='primary'
                     variant='contained'
                     >
                     Создать папку
-                    </Button> 
+                    </MyButton> 
                 </Stack>        
             </form>
         </ModalFormCentered>

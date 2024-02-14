@@ -59,6 +59,26 @@ class FileService {
         const filesDto = childFiles.map(file => new FileDto(file))
         return filesDto
     }
+
+    async uploadfile(file) {
+        console.log(file)
+        const parrentFile = await File.findById(parrentID)
+        if(!parrentFile) {
+            throw new Error('Неверный id пользователя')
+        }
+
+        const newFile = await File.create({user: user._id, name: file.name, parent:`${parrentFile.parent}\\${parrentFile.name}`})
+        const fileDto = new FileDto(newFile)
+        fs.writeFileSync(path.resolve(newFile.parent, newFile.name), file.data)
+        
+        const user = await User.findById(parrentFile.user)
+        user.files.push(newFile)
+        await user.save()
+
+        return fileDto
+        // const newFile = fs.writeFileSync(`C:\\Users\\Мвидео\\Desktop\\${file.name}`, file.data)
+        // return file
+    }
 }
 
 module.exports = new FileService()

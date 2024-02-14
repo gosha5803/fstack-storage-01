@@ -31,6 +31,16 @@ class FileController {
             next(e)
         }
     }
+
+    async uploadFile(req, res, next) {
+        try {
+            const files = req.files
+            await FileService.uploadfile(files.file)
+            return res.json({savedFile: 'yes'})
+        } catch (e) {
+            next(e)
+        }
+    }
 }
 
 module.exports = new FileController()

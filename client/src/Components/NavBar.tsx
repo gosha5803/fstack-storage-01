@@ -45,7 +45,8 @@ const NavBar = () => {
                         <Divider orientation='vertical' flexItem sx={{ml:1, bgcolor:'white'}}/>
                         {pages.map(page => 
                             <NavLink to={page.path} key={page.id}>
-                                <Button variant='text' 
+                                <Button 
+                                variant='text' 
                                 size='large'
                                 sx={{
                                     color:'white',
