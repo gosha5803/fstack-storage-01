@@ -1,6 +1,6 @@
 # Fullstack приложение облачного хранилища. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Frontend приложение лежит в папке client.
 
 ## Основной функционал
 - Роутинг с закрытыми и публичными путями
