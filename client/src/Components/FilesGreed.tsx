@@ -1,12 +1,10 @@
-import { FolderSpecialOutlined, FolderSharp } from '@mui/icons-material';
-import { Box, Grid, Typography, styled } from '@mui/material';
+import { FolderSharp } from '@mui/icons-material';
+import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { IFile } from '../store/files/types';
 import UploadFileComponent from './UploadFileComponent';
 
-// const Div = styled('span')(({ theme }) => ({
-//     ...theme.typography.button,
-//       }));
+//FilesGrid - сетка MUI, которая в нашем приложении создана для отрисовки системы папок, принимает массив папок извне и функцию, открытия папки, также извне и вызывает её по нажатию на конкретную папку и передаёт в ней сам объект файла. Последним элементом сетки отрисовывается fileInput для загружки файлов.
 
 interface FileGridProps {
     files: IFile[] | undefined
@@ -14,9 +12,6 @@ interface FileGridProps {
 }
 
 const FilesGreed: React.FC<FileGridProps> = ({files, openFileHandler}) => {
-    const clicker = (e: React.MouseEvent<HTMLDivElement>) => {
-        console.log(e.detail)
-    }
     return (
         <Grid container spacing={2} mt={3} >
             {files && files.map(file => 
@@ -28,7 +23,6 @@ const FilesGreed: React.FC<FileGridProps> = ({files, openFileHandler}) => {
                 justifyContent={'center'} 
                 alignItems={'center'}>
                     <Box 
-                    // onClick={clicker}
                     onDoubleClick={() => openFileHandler(file)} 
                     sx={{
                         width:'120px',

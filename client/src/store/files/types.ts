@@ -1,3 +1,4 @@
+//Типы для состояния File
 export interface IFile {
     name: string
     id: string

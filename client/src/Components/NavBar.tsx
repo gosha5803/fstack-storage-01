@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
 import { useTypedSelector } from '../hooks/useTypedSelector';
-import {Box, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Button, Stack, Divider} from '@mui/material'
-import {AccountBalanceOutlined, AccountCircleTwoTone, } from '@mui/icons-material'
+import {Box, AppBar, Toolbar, Typography, Button, Stack, Divider} from '@mui/material'
+import { AccountCircleTwoTone } from '@mui/icons-material'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { registerApi } from '../api/authApi';
 import { NavLink } from 'react-router-dom';
 import CustomMenu from '../interface/CustomMenu';
 
+//Компонент навигационной панели приложения.
 const NavBar = () => {
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+    //Состояние необходимое для MUI Menu элемента.
+    // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+    //Функция выхода из аккаунта, вызывается по кнопке logout в меню навигационной панели.
     const [logout, {}] = registerApi.useLazyLogoutQuery()
+    //По флагу отрисовываются кнопки для перехода на cnhfybwe хранилищf, но только по значению true.
     const {isAuth} = useTypedSelector(state => state.authentication)
+    //Логин нужен для отрисовки логина пользователя в панели.
     const {login} = useTypedSelector(state => state.user.user)
+    //Массив отрисовываемых кнопок 
     const pages = [
         {title: 'Главная', path: '/home', id:1},
         {title: 'Хранилище', path: '/storage', id:2}
@@ -19,15 +24,15 @@ const NavBar = () => {
     //Вынести кнокпи, как публичные и непубличные роутсы и через енум и интерфейсы назначить всё это дело.
     // Добавить сайдбар? возможно отображать иконку длязагрузки фала и для создания папки
 
-    const handleMenu = (e: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(e.currentTarget)
-        console.log(e.currentTarget)
-    }
+    // const handleMenu = (e: React.MouseEvent<HTMLElement>) => {
+    //     setAnchorEl(e.currentTarget)
+    //     console.log(e.currentTarget)
+    // }
 
-    const handleClose = () => {
-        setAnchorEl(null)
-        logout()
-    }
+    // const handleClose = () => {
+    //     setAnchorEl(null)
+    //     logout()
+    // }
 
     return (
         <>
@@ -91,6 +96,12 @@ const NavBar = () => {
                                 </MenuItem>
                             </Menu> */}
 
+
+
+
+                            {/*
+                            Кастомный компонент меню, который принимает в себя menuButon{иконку} и menuItems {Заголовок, Функцию, которая отрабатывает при клике по опции менюшки и иконку опции.}
+                            */}
                             <CustomMenu
                             menuButton={{
                                 icon: <AccountCircleTwoTone sx={{color:'white', fontSize: 30}}/>
@@ -104,6 +115,7 @@ const NavBar = () => {
                 </AppBar>
             </Box>
             :
+            //Вариант навигации при неавторизованном пользователе.
             <Box>
                 <AppBar position='static'>
                     <Toolbar

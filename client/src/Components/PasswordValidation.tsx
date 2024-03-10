@@ -2,6 +2,7 @@ import React, { FC, useEffect } from 'react';
 import {Stack, List, ListItem} from '@mui/material'
 import {CheckCircleOutlineOutlined} from '@mui/icons-material'
 
+//Недоработанный компонент.!!!!!!!!!!!!!!
 interface PasswordValidationProps {
     message: string | undefined
 }

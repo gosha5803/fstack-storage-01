@@ -1,3 +1,4 @@
+//Интерфейсы данных для создания файла и объекта файла.
 export interface CreateFileRequest {
     link: string
     folderName: string

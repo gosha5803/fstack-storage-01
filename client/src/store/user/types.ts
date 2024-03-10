@@ -1,3 +1,4 @@
+//Типизация состояния user.
 export interface IUser {
     email: string,
     login: string,

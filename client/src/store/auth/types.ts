@@ -1,5 +1,5 @@
-import { IBackenErrors } from "../../Models/backendErrors";
-
+//Тип состояни авторизации.
 export interface IAuth {
-    isAuth: boolean
+    isAuth: boolean,
+    user: string
 }

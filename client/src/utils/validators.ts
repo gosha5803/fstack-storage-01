@@ -1,5 +1,6 @@
 import { IFile } from "../store/files/types"
 
+//Объект валидаторов для валидации форм содержит валидации для email, password и валидацию создания папки(метод). 
 export const Validators = {
     email: {
         required: {
@@ -28,30 +29,22 @@ export const Validators = {
             message: 'Введите пароль!'
         },
         validate: (password:string) => passwordConfigValidator(password)
-        // validate: (password:string) => 
     },
 
+    // Метод принимающийй в себя существующие файлы и проверяющи содержимое формы на совпадение с названиями существующих файлов.)
     createFolder: (existingFiles: IFile[] | undefined) => ({
         validate: {
             value: (fileName: string) => {
                 if(!existingFiles) {
                     return true
                 }
-                return !existingFiles.filter(file => file.name == fileName).length ? true : 'Папка с таким именем уже существует' 
+                return !existingFiles.filter(file => file.name === fileName).length ? true : 'Папка с таким именем уже существует' 
             }
         }
-    }),
-
-    // test: (message: string) => {
-    //     return {
-    //         required: {
-    //             value: true,
-    //             message
-    //         }
-    //     }
-    // }
+    })
 }
 
+//Метод для проверки пароля на наличие Специального символа, заглавной буквы, строчной буквы и на минимальную длину.
 function passwordConfigValidator(password: string): boolean | string {
     const params = {
         length: false,
@@ -69,11 +62,11 @@ function passwordConfigValidator(password: string): boolean | string {
             params.nums = true
             continue
         }
-        if (password[i].toLowerCase() == password[i]) {
+        if (password[i].toLowerCase() === password[i]) {
             params.lowerCase = true
         }
 
-        if (password[i].toUpperCase() == password[i]) {
+        if (password[i].toUpperCase() === password[i]) {
             params.upperCase = true
         }
 
@@ -94,25 +87,3 @@ function passwordConfigValidator(password: string): boolean | string {
             !params.length ? 'Минимальная длина 8 символов' 
             : '')
 }
-
-// function passwordValidator(password: string) {
-//     const checkList = passwordConfigValidator(password)
-//     console.log(checkList)
-
-
-//     return {
-//         required: {
-//             value: true,
-//             message:'Бобка'
-//         },
-         
-//         validate: {
-//             value: [
-//                 checkList.length || 'Минимальная длина 8 символов',
-//                 checkList.upperCase || '1 заглавный символ',
-//                 checkList.lowerCase || '1 строчный символ',
-//                 checkList.nums || '1 цифра',
-//         ]       
-//         }
-// } 
-// }

@@ -1,5 +1,6 @@
 import { IFile } from "../store/files/types"
 
+//Тип ответа от сервера с эндпоинтов auth.
 export interface IAuthResponse {
     accessToken: string
     refreshToken: string

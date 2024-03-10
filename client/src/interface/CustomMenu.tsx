@@ -1,14 +1,16 @@
-import { MoreVert, SvgIconComponent } from '@mui/icons-material';
 import { Box, Button, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
 import React, {useState} from 'react';
 
+//Кастомный меню компонент, использует в себе MUI menu, но упрощает его создание, за счёт передачи в него параметров ниже.
+//menuItems - массив типа menuItem, который представляет собой непосредственно кнопки меню со своим закголовком, иконкой и функционалом.
+//menuButton и position - алтернативы, так как menu может быть статичной кнопкой, а может вызываться в динамическом месте по клику правой клавишей.
 interface CustomMenuProps {
     menuItems: menuItem[]
     menuButton?: buttonMenu
-    visibility?: null | HTMLElement 
+    // visibility?: null | HTMLElement 
     position?: {left: number, top: number} | undefined
 }
-
+//Иконка кнопки и стандартные пропсы кнопки.
 interface buttonMenu {
     btnSettings?: {
         text: string
@@ -16,9 +18,9 @@ interface buttonMenu {
         variant: 'outlined' | 'contained'
     } 
     icon?: React.ReactNode
-    // reference: null | HTMLElement
 }
 
+//Элемент меню.
 interface menuItem {
     title: string
     icons?: React.ReactNode
@@ -38,7 +40,6 @@ const CustomMenu: React.FC<CustomMenuProps> = ({menuItems, menuButton, position}
 
     return (
         <Box
-        // sx={{position:'absolute', right: 700, top: 220}}
         >
            {!menuButton?.icon ? 
            <Button
@@ -55,6 +56,7 @@ const CustomMenu: React.FC<CustomMenuProps> = ({menuItems, menuButton, position}
             {menuButton.icon}
            </IconButton>
            }
+
             {menuButton ?
             <Menu
             id="basic-menu"

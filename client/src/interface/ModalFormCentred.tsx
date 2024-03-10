@@ -1,6 +1,7 @@
-import { Box, Button, IconButton, InputAdornment, Modal, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Box, Modal, Paper } from '@mui/material';
 import React from 'react';
 
+//Кастомное modal окно, которое оборачивает в модал Box и Paper из MUI.
 interface ModalProps {
     children: React.ReactNode
     isOpen: boolean
