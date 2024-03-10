@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import './App.css';
 import AppRouter from './Components/AppRouter';
 import NavBar from './Components/NavBar';
@@ -10,9 +9,7 @@ import '@fontsource/roboto/700.css';
 
 //При отрисовке приложения проверяется наличие токена в localStorage.
 function App() {
-  useEffect(() => {
-    registerApi.useCheckRegisterQuery()
-  },[])
+  registerApi.useCheckRegisterQuery()
 
   return (
     <div className="App">

@@ -15,7 +15,6 @@ const filesSlice = createSlice({
         //Установление текущего файла.
         setCurrentFile: (state: FilesState, action: PayloadAction<IFile>) => {
             state.currentFile = action.payload
-            console.log(state.currentFile)
         },
         //Установление дочерних файлов.
         setChildren: (state: FilesState, action: PayloadAction<IFile[]>) => {
