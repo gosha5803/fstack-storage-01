@@ -30,4 +30,5 @@ TypeScript
 - store - работа с ReduxToolkit
 - utils - утилиты, в частности валидаторы форм.
 
-
+# Пример работы сайта
+![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
