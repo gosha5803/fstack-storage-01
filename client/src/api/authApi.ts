@@ -4,7 +4,7 @@ import { FormProps } from '../Components/LoginForm'
 import { logout, setUser } from '../store/user/userSlice'
 import { setAuth } from '../store/auth/authSlice'
 import { IBackenErrors } from '../Models/backendErrors'
-import { setCurrentFile } from '../store/files/filesSlice'
+import { clearFilesState, setCurrentFile } from '../store/files/filesSlice'
 
 
 // Настройка api для запросов по документации RTK Query
@@ -29,6 +29,7 @@ export const registerApi = createApi({
                 try {
                     const {data: user} = await queryFulfilled
                     dispatch(setUser({token: user.accessToken, id: user.user.id, email: user.user.email, login: user.user.login}))
+                    dispatch(setCurrentFile(user.mainFolder))
                     dispatch(setAuth(true))
                     localStorage.setItem('accessToken', user.accessToken)
                 } catch (e) {
@@ -66,8 +67,10 @@ export const registerApi = createApi({
             async onQueryStarted(_arg, {dispatch, queryFulfilled}) {
                 try {
                     const {data: user} = await queryFulfilled
+                    console.log(user)
                     dispatch(setUser({token: user.accessToken, id: user.user.id, email: user.user.email, login:  user.user.login}))
                     dispatch(setAuth(true))
+                    dispatch(setCurrentFile(user.mainFolder))
                     localStorage.setItem('accessToken', user.accessToken)
                 } catch (e) {
                     console.log(e)
@@ -82,9 +85,10 @@ export const registerApi = createApi({
             }),
             async onQueryStarted(_arg, {dispatch, queryFulfilled}) {
                 try {
-                    const {data: user} = await queryFulfilled
+                    console.log('asas')
                     dispatch(logout())
                     dispatch(setAuth(false))
+                    dispatch(clearFilesState())
                     localStorage.removeItem('accessToken')
                 } catch (e) {
                     console.log(e)

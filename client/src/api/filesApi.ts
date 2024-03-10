@@ -17,7 +17,6 @@ export const filesApi = createApi({
                 body: {folderName}
             }),
             invalidatesTags: ['files'],
-            
         }),
 
         //Endpoint для запроса дочерних папок, текущей папки от сервера.

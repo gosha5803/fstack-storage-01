@@ -45,7 +45,7 @@ class UserService {
             const userDto = new UserDto(user)
             const tokens = await tokenService.generateTokens({...userDto})
             await tokenService.saveToken(tokens.refreshToken, user.id)
-            const mainFolder = await File.findOne({parent: process.env.LOCAL_STORAGE_PATH})
+            const mainFolder = await File.findOne({name: `User_${user.id}_main`})
             const folderDto = new FileDto(mainFolder)
 
             return {...tokens, user: userDto, mainFolder: folderDto}
@@ -67,8 +67,8 @@ class UserService {
             const user = await User.findOne({email: userEmail})
             const userDto = new UserDto(user)
             const tokens = await tokenService.generateTokens({...userDto})
-
-            const mainFolder = await File.findOne({parent: process.env.LOCAL_STORAGE_PATH})
+            
+            const mainFolder = await File.findOne({name: `User_${user.id}_main`})
             const folderDto = new FileDto(mainFolder)
 
             

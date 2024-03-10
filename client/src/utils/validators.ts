@@ -38,9 +38,13 @@ export const Validators = {
                 if(!existingFiles) {
                     return true
                 }
+                if(!fileName.length) {
+                    return 'Введите название папки!'
+                }
                 return !existingFiles.filter(file => file.name === fileName).length ? true : 'Папка с таким именем уже существует' 
             }
-        }
+        },
+
     })
 }
 

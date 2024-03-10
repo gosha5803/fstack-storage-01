@@ -23,7 +23,7 @@ const LoginForm: React.FC  = () => {
     const [login, {error: loginError, isError: isLoginError}] = registerApi.useLoginMutation()
     //Методы authApi, для отправки запроса и обработки ошибок.
     const form = useForm<FormProps>()
-    const {register, formState, handleSubmit } = form
+    const {register, formState, handleSubmit} = form
     const {errors} = formState
     //React hook forms методы для регистраци, и submit формы.
 

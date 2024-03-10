@@ -40,9 +40,15 @@ const filesSlice = createSlice({
             } while(copyParents.length)
 
             state.parents = newParents
+        },
+        clearFilesState: (state: FilesState) => {
+            state.childFiles = []
+            state.parents = []
+            state.currentFile = {} as IFile
+            console.log('asasasas')
         }
     }
 })
 
-export const {setCurrentFile, setChildren, addParent, changeParents} = filesSlice.actions
+export const {setCurrentFile, setChildren, addParent, changeParents, clearFilesState} = filesSlice.actions
 export default filesSlice.reducer
