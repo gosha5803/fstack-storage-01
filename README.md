@@ -31,4 +31,4 @@ TypeScript
 - utils - утилиты, в частности валидаторы форм.
 
 # Пример работы сайта
-![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+![Alt Text](file:///D:/premier%20pro/%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE/React%20App%20-%20Google%20Chrome%202024-03-11%2001-31-57.gif)
